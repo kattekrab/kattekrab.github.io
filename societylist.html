@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List: The [Wildcard] Society</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @media print {
+            body { background-color: white !important; font-family: serif; }
+            header, .gemini-features, #gemini-invent-button { display: none; }
+            #book-list { display: block; }
+            #book-list > div { page-break-inside: avoid; box-shadow: none !important; transform: none !important; border: 1px solid #ddd; margin-bottom: 20px; }
+            * { background-color: transparent !important; color: black !important; box-shadow: none !important; text-shadow: none !important; }
+        }
+
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800">The "[Wildcard] Society" Book List</h1>
+            <p class="text-slate-600 mt-2">A curated collection of influential books following a unique naming pattern.</p>
+            
+        </header>
+
+        <div id="book-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <!-- Book cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const books = [
+            {
+                title: "An Essay on the History of Civil Society",
+                author: "Adam Ferguson",
+                year: 1767,
+                publisher: "A. Kincaid & J. Bell",
+                imageUrl: "https://bookstellyouwhy.cdn.bibliopolis.com/pictures/51310.jpg?auto=webp&v=1393934764",
+                summary: "A foundational text of the Scottish Enlightenment that traces the development of commercial society, examining the role of conflict and social bonds."
+            },
+            {
+                title: "The Acquisitive Society",
+                author: "R. H. Tawney",
+                year: 1920,
+                publisher: "Harcourt, Brace and Howe",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1328864470i/1394823.jpg",
+                summary: "A critique of capitalism that argues modern society is flawed because it prioritizes individual wealth accumulation over collective purpose."
+            },
+            {
+                title: "The Open Society and Its Enemies",
+                author: "Karl Popper",
+                year: 1945,
+                publisher: "Routledge",
+                imageUrl: "https://cdn.waterstones.com/bookjackets/large/9780/4152/9780415237314.jpg",
+                summary: "A vigorous defense of liberal democracy, arguing that societies thrive on piecemeal reform and criticism rather than utopian, totalitarian visions."
+            },
+            {
+                title: "The New Society",
+                author: "Peter F. Drucker",
+                year: 1950,
+                publisher: "Harper & Brothers",
+                imageUrl: "https://images.tandf.co.uk/common/jackets/crclarge/978131513/9781315133478.jpg",
+                summary: "An analysis of the industrial world, exploring the anatomy of industrial society and the challenges of maintaining freedom within large-scale organizations."
+            },
+            {
+                title: "The Technological Society",
+                author: "Jacques Ellul",
+                year: 1954,
+                publisher: "Librairie Armand Colin / Alfred A. Knopf",
+                imageUrl: "https://upload.wikimedia.org/wikipedia/en/c/cb/TheTechnologicalSocietyCover.jpg",
+                summary: "Argues that an autonomous and pervasive 'technique' (the drive for efficiency in all things) has come to dominate every aspect of modern human life."
+            },
+            {
+                title: "The Sane Society",
+                author: "Erich Fromm",
+                year: 1955,
+                publisher: "Rinehart & Company",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1530712273i/40717990.jpg",
+                summary: "A psychoanalytic critique of modern capitalism, arguing that its emphasis on consumption and conformity creates an alienated and mentally unhealthy society."
+            },
+            {
+                title: "The Affluent Society",
+                author: "John Kenneth Galbraith",
+                year: 1958,
+                publisher: "Houghton Mifflin",
+                imageUrl: "https://www.penguin.co.uk/_next/image?url=https%3A%2F%2Fcdn.penguin.co.uk%2Fdam-assets%2Fbooks%2F9780140285192%2F9780140285192-jacket-large.jpg&w=379&q=100",
+                summary: "Argues that postwar America, rich in private goods, failed to address public squalor, creating a society of private opulence and public poverty."
+            },
+            {
+                title: "The Stagnant Society",
+                author: "Michael Shanks",
+                year: 1961,
+                publisher: "Penguin Books",
+                imageUrl: "https://standfirst-designweek-production.imgix.net/uploads/2013/08/Hollis-book-cover-for-The-Stagnant-Society.jpeg?fit=crop&crop=faces&q=80&auto=compress,format&w=635&h=1024&dpr=1",
+                summary: "An analysis of Britain's post-war economic decline, attributing it to outdated industrial attitudes, class divisions, and a resistance to modernization."
+            },
+            {
+                title: "The Naked Society",
+                author: "Vance Packard",
+                year: 1964,
+                publisher: "David McKay Co.",
+                imageUrl: "https://upload.wikimedia.org/wikipedia/en/6/6c/TheNakedSociety.jpg",
+                summary: "An early and prescient warning about the erosion of individual privacy by new surveillance technologies used by governments and corporations."
+            },
+            {
+                title: "The Active Society",
+                author: "Amitai Etzioni",
+                year: 1968,
+                publisher: "Free Press",
+                imageUrl: "https://pictures.abebooks.com/isbn/9780029095805-us.jpg",
+                summary: "A sociological theory that proposes a model for a society that is master of itself, able to process information and make collective decisions for social change."
+            },
+            {
+                title: "The Abstract Society",
+                author: "Anton C. Zijderveld",
+                year: 1969,
+                publisher: "Allen Lane",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1448985404i/3638508.jpg",
+                summary: "Argues that modern, pluralistic societies have become so abstract that individuals struggle to find a coherent sense of reality and meaning."
+            },
+            {
+                title: "The Court Society",
+                author: "Norbert Elias",
+                year: 1969,
+                publisher: "Hermann Luchterhand Verlag",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387737608i/1099389.jpg",
+                summary: "A study of courtly life under Louis XIV, analyzing the intricate power dynamics and etiquette that shaped aristocratic behavior."
+            },
+            {
+                title: "Future Shock (The Throwaway Society)",
+                author: "Alvin Toffler",
+                year: 1970,
+                publisher: "Random House",
+                imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Future_shock.png/250px-Future_shock.png",
+                summary: "Examines the psychological stress caused by rapid technological and social change, coining the term 'throwaway society' for a culture of disposability."
+            },
+            {
+                title: "The Computerized Society",
+                author: "James Martin & Adrian R. D. Norman",
+                year: 1970,
+                publisher: "Prentice-Hall",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1510884597i/4730181.jpg",
+                summary: "A forward-looking analysis of the potential benefits and dangers of a society increasingly reliant on computers and telecommunications."
+            },
+            {
+                title: "The Permissive Society",
+                author: "John Selwyn Gummer",
+                year: 1971,
+                publisher: "Cassell",
+                imageUrl: "https://antichay.cdn.bibliopolis.com/pictures/1086.jpg?width=768&height=1000&fit=bounds&auto=webp&v=1437856472",
+                summary: "A critique of the social and moral changes of the 1960s, arguing against the decline of traditional values and the rise of permissiveness."
+            },
+            {
+                title: "The Leisure Society",
+                author: "Jeremy Seabrook",
+                year: 1988,
+                publisher: "Basil Blackwell",
+                imageUrl: "https://m.media-amazon.com/images/I/51Lfa7zvyAL._SY466_.jpg",
+                summary: "Examines the paradox of leisure in modern society, arguing that commercialization has transformed free time into another form of consumption."
+            },
+            {
+                title: "The Coming of Post-Industrial Society",
+                author: "Daniel Bell",
+                year: 1973,
+                publisher: "Basic Books",
+                imageUrl: "https://m.media-amazon.com/images/I/414nPnOnP6L._SY466_.jpg",
+                summary: "A landmark work predicting the shift from a manufacturing-based economy to one dominated by information, services, and technical knowledge."
+            },
+            {
+                title: "The Identity Society",
+                author: "William Glasser",
+                year: 1975,
+                publisher: "Harper & Row",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1697988341i/2793156.jpg",
+                summary: "Argues that modern individuals have moved beyond survival needs and are now primarily driven by the need for a strong sense of personal identity."
+            },
+            {
+                title: "The Wired Society",
+                author: "James Martin",
+                year: 1978,
+                publisher: "Prentice-Hall",
+                imageUrl: "https://m.media-amazon.com/images/I/71JM44oSwzL._SY522_.jpg",
+                summary: "An early exploration of how new communication technologies like computer networks would fundamentally reshape commerce, work, and social life."
+            },
+            {
+                title: "The Information Society",
+                author: "Yoneji Masuda",
+                year: 1981,
+                publisher: "Institute for the Information Society",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1172865318i/225449.jpg",
+                summary: "A visionary work from Japan that outlines the concept of a 'Computopia,' where information production becomes the driving force of society."
+            },
+            {
+                title: "Risk Society: Towards a New Modernity",
+                author: "Ulrich Beck",
+                year: 1986,
+                publisher: "Suhrkamp Verlag / SAGE",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348003712i/134443.jpg",
+                summary: "Argues that modern societies have moved from distributing 'goods' (wealth) to distributing 'bads' (risks), such as nuclear or environmental threats."
+            },
+            {
+                title: "The Metronomic Society",
+                author: "Michael Young",
+                year: 1988,
+                publisher: "Harvard University Press",
+                imageUrl: "https://i.ebayimg.com/images/g/qNMAAOSwlPpjo9QA/s-l960.webp",
+                summary: "An exploration of how standardized, clock-based time structures every aspect of modern life, from work schedules to social rhythms."
+            },
+            {
+                title: "The Good Society",
+                author: "Robert N. Bellah et al.",
+                year: 1991,
+                publisher: "Alfred A. Knopf",
+                imageUrl: "https://cdn2.penguin.com.au/covers/400/9780679733591.jpg",
+                summary: "Argues for the revitalization of American democracy by strengthening the institutions that mediate between the individual and the market."
+            },
+            {
+                title: "The Experience Society",
+                author: "Gerhard Schulze",
+                year: 1992,
+                publisher: "Campus Verlag / SAGE",
+                imageUrl: "https://pictures.abebooks.com/ANTIQUARIATUWEKOCH/30292158198.jpg",
+                summary: "A sociological study arguing that people's lives are increasingly organized around the pursuit of subjective, pleasurable experiences."
+            },
+            {
+                title: "The Twenty-Four Hour Society",
+                author: "Martin Moore-Ede",
+                year: 1993,
+                publisher: "Addison-Wesley",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1677793911i/3011245.jpg",
+                summary: "Explores the physiological and social consequences of a society that operates 24/7, examining the impact on human health, safety, and productivity."
+            },
+            {
+                title: "The Electronic Eye (The Surveillance Society)",
+                author: "David Lyon",
+                year: 1994,
+                publisher: "University of Minnesota Press",
+                imageUrl: "https://images.booklooker.de/x/07323036_eHgwNzQ1NjEyNjg3/David-Lyon+The-Electronic-Eye-The-Rise-of-Surveillance-Society-Computers-and-Social-Control-in.jpg",
+                summary: "A foundational text on surveillance studies, analyzing how electronic technologies are used to monitor and categorize populations."
+            },
+            {
+                title: "The Knowledge Society",
+                author: "Nico Stehr and Gernot Bohme (editors)",
+                year: 1986,
+                publisher: "SAGE Publications",
+                imageUrl: "https://www3.alibris-static.com/the-knowledge-society-the-growing-impact-of-scientific-knowledge-on-social-relations/isbn/9789027723055_l.jpg",
+                summary: "Argues that contemporary society is defined by the pervasive role of scientific and technological knowledge as a primary economic force."
+            },
+            {
+                title: "The Quantum Society",
+                author: "Danah Zohar & Ian Marshall",
+                year: 1994,
+                publisher: "William Morrow",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1347707771i/475969.jpg",
+                summary: "Applies principles of quantum physics to human consciousness and social organization, arguing for a more holistic worldview."
+            },
+            {
+                title: "The Careless Society",
+                author: "John McKnight",
+                year: 1995,
+                publisher: "Basic Books",
+                imageUrl: "https://www.hachettebookgroup.com/wp-content/uploads/2017/09/9780465091263.jpg",
+                summary: "A critique arguing that the professionalization of social services can weaken communities by replacing neighborly care with institutionalized systems."
+            },
+            {
+                title: "The Decent Society",
+                author: "Avishai Margalit",
+                year: 1996,
+                publisher: "Harvard University Press",
+                imageUrl: "https://www.hup.harvard.edu/img/feeds/jackets/9780674194373.png",
+                summary: "A political philosophy arguing a 'decent' society is one whose institutions do not humiliate its citizens."
+            },
+            {
+                title: "The Rise of the Network Society",
+                author: "Manuel Castells",
+                year: 1996,
+                publisher: "Blackwell Publishers",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387665356i/509866.jpg",
+                summary: "Analyzes the profound effects of the information technology revolution on the economy, society, and culture."
+            },
+            {
+                title: "The Stakeholding Society",
+                author: "Will Hutton",
+                year: 1996,
+                publisher: "Polity Press",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1356138674i/4735682.jpg",
+                summary: "Proposes a reformed capitalism where companies have obligations not just to shareholders, but to all stakeholders, including employees and community."
+            },
+            {
+                title: "The Transparent Society",
+                author: "David Brin",
+                year: 1998,
+                publisher: "Addison-Wesley",
+                imageUrl: "https://www.davidbrin.com/images/prettyPhotoImages/transparentsociety.jpg",
+                summary: "Argues that the erosion of privacy is inevitable and should be met with 'reciprocal transparency,' where citizens can also watch the watchers."
+            },
+            {
+                title: "The 24-Hour Society",
+                author: "Leon Kreitzman",
+                year: 1999,
+                publisher: "Profile Books",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1482482682i/6304126.jpg",
+                summary: "Examines the social, biological, and economic consequences of a world that increasingly operates around the clock."
+            },
+            {
+                title: "The Sound Bite Society",
+                author: "Jeffrey Scheuer",
+                year: 1999,
+                publisher: "Four Walls Eight Windows",
+                imageUrl: "https://prodimage.images-bn.com/pimages/9780415936620_p0_v2_s600x595.jpg",
+                summary: "Argues that television's emphasis on short, superficial sound bites has impoverished political discourse and public understanding."
+            },
+            {
+                title: "The Dream Society",
+                author: "Rolf Jensen",
+                year: 1999,
+                publisher: "McGraw-Hill",
+                imageUrl: "https://covers.openlibrary.org/b/id/54385-M.jpg",
+                summary: "Predicts that the future economy will be dominated by businesses that sell stories, emotions, and dreams as consumers seek meaning."
+            },
+            {
+                title: "The Stakeholder Society",
+                author: "Bruce Ackerman & Anne Alstott",
+                year: 1999,
+                publisher: "Yale University Press",
+                imageUrl: "https://yale-press-us.imgix.net/covers/9780300082609.jpg",
+                summary: "Proposes a radical policy where every citizen receives a substantial cash grant upon reaching adulthood to promote equal opportunity."
+            },
+            {
+                title: "The Individualized Society",
+                author: "Zygmunt Bauman",
+                year: 2001,
+                publisher: "Polity Press",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1375675156i/789189.jpg",
+                summary: "Explores the paradox of modern individualism, where people are freed from traditional bonds but left with the task of constructing their own identities."
+            },
+            {
+                title: "The Honoured Society",
+                author: "Petra Reski",
+                year: 2008,
+                publisher: "Aufbau-Verlag",
+                imageUrl: "https://www.petrareski.com/wordpress/wp-content/uploads/2012/06/the_honoured_society-e1339757995287.jpg",
+                summary: "An investigative journalist's deep dive into the secretive and powerful world of the Italian Mafia, exposing its structure and pervasive influence."
+            },
+            {
+                title: "The Selfish Society",
+                author: "Sue Gerhardt",
+                year: 2010,
+                publisher: "Simon & Schuster",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1344677317i/7996417.jpg",
+                summary: "Argues that modern Western culture has failed to provide the empathetic early-life care necessary for creating well-adjusted adults."
+            },
+            {
+                title: "The Burnout Society",
+                author: "Byung-Chul Han",
+                year: 2010,
+                publisher: "Matthes & Seitz / Stanford University",
+                imageUrl: "https://prodimage.images-bn.com/pimages/9780804795098_p0_v5_s600x595.jpg",
+                summary: "A philosophical essay arguing that the modern pathology is not immunological but neuronal, leading to burnout and depression."
+            },
+            {
+                title: "The Impulse Society",
+                author: "Paul Roberts",
+                year: 2014,
+                publisher: "Bloomsbury USA",
+                imageUrl: "https://m.media-amazon.com/images/I/71WK6WWv4oL._SY466_.jpg",
+                summary: "An analysis of how a culture of instant gratification, driven by consumerism and technology, is undermining long-term thinking."
+            },
+            {
+                title: "The Zero Marginal Cost Society",
+                author: "Jeremy Rifkin",
+                year: 2014,
+                publisher: "Palgrave Macmillan",
+                imageUrl: "https://www.superception.fr/wp-content/uploads/2014/09/The-Zero-Marginal-Cost-Society.jpg",
+                summary: "Argues the rise of the Internet of Things is leading to a new economic paradigm where many goods and services become nearly free."
+            },
+            {
+                title: "The Listening Society",
+                author: "Hanzi Freinacht",
+                year: 2017,
+                publisher: "Metamoderna",
+                imageUrl: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1745173466i/36107916.jpg",
+                summary: "A work of metamodern political philosophy that proposes a vision for a society that can facilitate its citizens' psychological development."
+            },
+            {
+                title: "The Experience Society",
+                author: "Svend Brinkmann",
+                year: 2025,
+                publisher: "University of Chicago Press",
+                imageUrl: "https://press.uchicago.edu/.imaging/mte/ucp/medium/dam/ucp/books/jacket/978/18/36/39/9781836390954.jpg/jcr:content/9781836390954.jpg",
+                summary: "Argues our relentless quest for novel experiences has become an imperative, leading to a shallow and restless form of life."
+            },
+        ];
+
+        // --- Book Card Rendering ---
+
+        const bookListContainer = document.getElementById('book-list');
+
+        books.sort((a, b) => a.year - b.year).forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-lg shadow-lg overflow-hidden flex flex-row transform hover:scale-105 transition-transform duration-300';
+
+            // Left section for image
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'flex-shrink-0 w-48 bg-slate-200';
+            const img = document.createElement('img');
+            img.src = book.imageUrl;
+            img.alt = `Cover of ${book.title}`;
+            img.className = 'w-full h-full object-cover';
+            img.onerror = () => {
+                img.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 text-xs text-center p-2">No Image Available</div>`;
+            };
+            imageWrapper.appendChild(img);
+
+            // Right section for details
+            const detailsWrapper = document.createElement('div');
+            detailsWrapper.className = 'p-6 flex flex-col flex-grow';
+
+            const title = document.createElement('h2');
+            title.className = 'text-xl font-bold text-slate-800';
+            title.textContent = book.title;
+
+            const author = document.createElement('p');
+            author.className = 'text-slate-600 mt-1';
+            author.textContent = book.author;
+            
+            const summary = document.createElement('p');
+            summary.className = 'text-slate-700 mt-4 text-sm flex-grow';
+            summary.textContent = book.summary;
+
+            const meta = document.createElement('p');
+            meta.className = 'text-sm text-slate-500 mt-6 pt-4 border-t border-gray-200';
+            meta.innerHTML = `<strong>${book.year}</strong> &middot; ${book.publisher}`;
+
+            detailsWrapper.appendChild(title);
+            detailsWrapper.appendChild(author);
+            detailsWrapper.appendChild(summary);
+            detailsWrapper.appendChild(meta);
+            
+            card.appendChild(imageWrapper);
+            card.appendChild(detailsWrapper);
+
+            bookListContainer.appendChild(card);
+        });
+    </script>
+
+</body>
+</html>
+
