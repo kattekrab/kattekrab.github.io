@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAustralia.org.au - Homepage Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M10 10v4a2 2 0 0 0 4 0v-4a2 2 0 0 0-4 0Z"/><path d="M2 12h8"/><path d="M14 12h8"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+                <h1 class="text-xl font-bold text-gray-900">OpenAustralia</h1>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">MPs</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Senators</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Debates</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold shadow">Donate</a>
+                <button class="md:hidden" id="menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" class="block py-2 text-gray-600 hover:text-blue-600">MPs</a>
+            <a href="#" class="block py-2 text-gray-600 hover:text-blue-600">Senators</a>
+            <a href="#" class="block py-2 text-gray-600 hover:text-blue-600">Debates</a>
+            <a href="#" class="block py-2 text-gray-600 hover:text-blue-600">About</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Bringing Parliament to You. Unfiltered.</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Track your representatives, read debates, and see what's happening in Australian politics. Powered by open data and your support.</p>
+                <div class="mt-8 max-w-lg mx-auto">
+                    <div class="relative flex items-center shadow-lg rounded-full">
+                        <input type="text" placeholder="Enter your postcode to find your MP" class="w-full py-4 pl-6 pr-32 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-colors font-semibold">Search</button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">For example: 3000, 2000, 4000</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                    <div class="feature-item">
+                        <div class="bg-blue-100 text-blue-600 w-16 h-16 mx-auto rounded-full flex items-center justify-center">
+                            <i data-lucide="users" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="mt-4 text-xl font-semibold text-gray-900">Track Your Reps</h3>
+                        <p class="mt-2 text-gray-600">Find out who your local MP and Senators are, see their speeches, and track their activity in Parliament.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="bg-blue-100 text-blue-600 w-16 h-16 mx-auto rounded-full flex items-center justify-center">
+                            <i data-lucide="scroll-text" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="mt-4 text-xl font-semibold text-gray-900">Read the Debates</h3>
+                        <p class="mt-2 text-gray-600">Access and search the complete record of what's said in the House of Representatives and the Senate.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="bg-blue-100 text-blue-600 w-16 h-16 mx-auto rounded-full flex items-center justify-center">
+                             <i data-lucide="mail" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="mt-4 text-xl font-semibold text-gray-900">Get Free Email Alerts</h3>
+                        <p class="mt-2 text-gray-600">Sign up to get an email whenever your representative speaks or a keyword you care about is mentioned.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Activity Section -->
+        <section class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-900">Latest Activity in Parliament</h2>
+                <p class="text-center mt-2 text-gray-600">Recent debates from the House and the Senate.</p>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- House of Reps -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center"><i data-lucide="landmark" class="w-5 h-5 mr-2 text-green-600"></i>House of Representatives</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">National Anti-Corruption Commission Bill</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Mark Dreyfus</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 1:15 PM</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">Treasury Laws Amendment</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Jim Chalmers</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 12:40 PM</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">Question Time</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Multiple Speakers</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 11:00 AM</p>
+                            </div>
+                        </div>
+                        <a href="#" class="mt-6 inline-block text-blue-600 font-semibold hover:underline">View all from the House &rarr;</a>
+                    </div>
+                    <!-- Senate -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center"><i data-lucide="landmark" class="w-5 h-5 mr-2 text-red-600"></i>Senate</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">Environment Protection and Biodiversity Bill</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Sarah Hanson-Young</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 1:22 PM</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">Motion on Cost of Living</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Jane Hume</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 12:55 PM</p>
+                            </div>
+                             <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <p class="font-semibold text-gray-800">Foreign Affairs, Defence and Trade Committee</p>
+                                <p class="text-sm text-gray-600 mt-1">Spoken by: <span class="font-medium text-gray-700">Penny Wong</span></p>
+                                <p class="text-xs text-gray-500 mt-2">1 Oct 2025, 10:30 AM</p>
+                            </div>
+                        </div>
+                        <a href="#" class="mt-6 inline-block text-blue-600 font-semibold hover:underline">View all from the Senate &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / Support Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-gray-900">We're a small charity with a big mission.</h2>
+                    <p class="mt-4 text-gray-600">OpenAustralia is a non-partisan project of the OpenAustralia Foundation. We are entirely funded by donations from people like you. Your support keeps this platform free, independent, and accessible to all Australians.</p>
+                    <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold shadow-md w-full sm:w-auto">Donate Today</a>
+                        <a href="#" class="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg hover:bg-gray-300 transition-colors text-lg font-semibold w-full sm:w-auto">Learn More</a>
+                    </div>
+                 </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold">OpenAustralia</h3>
+                    <p class="mt-2 text-sm text-gray-400">Keeping tabs on your representatives in the Australian Parliament. A project by the OpenAustralia Foundation.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Quick Links</h3>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Legal</h3>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-semibold">Connect</h3>
+                     <div class="flex mt-4 space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="facebook"></i></a>
+                     </div>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+                <p>&copy; 2025 OpenAustralia Foundation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
