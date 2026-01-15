@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Practice Library</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    .mono {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+    }
+    
+    .gradient-mesh {
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 60%);
+    }
+    
+    .practice-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+    }
+    
+    .practice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .category-tag {
+      transition: all 0.2s ease;
+    }
+    
+    .category-tag:hover {
+      transform: scale(1.05);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .search-glow {
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .search-glow:focus {
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto"></div>
+  <script>
+    const defaultConfig = {
+      background_color: "#0f172a",
+      surface_color: "#1e293b",
+      text_color: "#f1f5f9",
+      primary_action_color: "#8b5cf6",
+      secondary_action_color: "#3b82f6",
+      font_family: "Space Grotesk",
+      font_size: 16,
+      hero_title: "Open Practice Library",
+      hero_subtitle: "A community-driven collection of practices and tools for modern teams",
+      cta_button: "Explore Practices",
+      featured_title: "Featured Practices",
+      practice_1_title: "Event Storming",
+      practice_1_desc: "A collaborative workshop technique for exploring complex business domains",
+      practice_2_title: "Impact Mapping",
+      practice_2_desc: "Strategic planning technique that prevents organizations from getting lost",
+      practice_3_title: "Design Sprint",
+      practice_3_desc: "A five-day process for answering critical business questions through design",
+      footer_text: "Built with ❤️ by the Open Practice Library Community"
+    };
+
+    async function onConfigChange(config) {
+      const baseFontSize = config.font_size || defaultConfig.font_size;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const fontStack = `${customFont}, -apple-system, BlinkMacSystemFont, sans-serif`;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      const app = document.getElementById('app');
+      app.style.backgroundColor = backgroundColor;
+      app.style.color = textColor;
+      app.style.fontFamily = fontStack;
+      
+      app.innerHTML = `
+        <div class="w-full min-h-full gradient-mesh" style="background-color: ${backgroundColor};">
+          <!-- Navigation -->
+          <nav class="w-full border-b" style="border-color: ${surfaceColor}; background-color: rgba(30, 41, 59, 0.8); backdrop-filter: blur(12px);">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor});">
+                  <span class="text-white font-bold" style="font-size: ${baseFontSize * 1.25}px;">OPL</span>
+                </div>
+                <span class="font-bold" style="font-size: ${baseFontSize * 1.125}px; color: ${textColor}; font-family: ${fontStack};">Open Practice Library</span>
+              </div>
+              <div class="flex items-center gap-6">
+                <a href="#" class="hover:opacity-80 transition-opacity" style="color: ${textColor}; font-size: ${baseFontSize}px; font-family: ${fontStack};">Practices</a>
+                <a href="#" class="hover:opacity-80 transition-opacity" style="color: ${textColor}; font-size: ${baseFontSize}px; font-family: ${fontStack};">About</a>
+                <a href="#" class="hover:opacity-80 transition-opacity" style="color: ${textColor}; font-size: ${baseFontSize}px; font-family: ${fontStack};">Contribute</a>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="max-w-7xl mx-auto px-6 py-20 text-center">
+            <div class="float-animation inline-block mb-6">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="35" stroke="${primaryColor}" stroke-width="3" fill="none" opacity="0.3"/>
+                <circle cx="40" cy="40" r="25" stroke="${secondaryColor}" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="40" cy="40" r="15" fill="${primaryColor}"/>
+                <path d="M30 40 L38 48 L52 32" stroke="${textColor}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            
+            <h1 id="hero-title" class="font-bold mb-6 leading-tight" style="font-size: ${baseFontSize * 3}px; color: ${textColor}; font-family: ${fontStack};">
+              ${config.hero_title || defaultConfig.hero_title}
+            </h1>
+            <p id="hero-subtitle" class="mb-10 max-w-2xl mx-auto opacity-90" style="font-size: ${baseFontSize * 1.25}px; color: ${textColor}; font-family: ${fontStack};">
+              ${config.hero_subtitle || defaultConfig.hero_subtitle}
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto mb-8">
+              <div class="relative">
+                <input 
+                  type="text" 
+                  placeholder="Search practices, tools, and techniques..."
+                  class="w-full px-6 py-4 rounded-xl search-glow mono"
+                  style="background-color: ${surfaceColor}; color: ${textColor}; border: 2px solid ${primaryColor}; font-size: ${baseFontSize}px; outline: none;"
+                />
+                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${primaryColor}" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+              </div>
+            </div>
+
+            <button id="cta-button" class="px-8 py-4 rounded-xl font-semibold transition-all hover:scale-105" 
+              style="background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}); color: ${textColor}; font-size: ${baseFontSize * 1.125}px; font-family: ${fontStack}; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);">
+              ${config.cta_button || defaultConfig.cta_button}
+            </button>
+          </section>
+
+          <!-- Categories -->
+          <section class="max-w-7xl mx-auto px-6 py-12">
+            <div class="flex flex-wrap gap-3 justify-center">
+              ${['Discovery', 'Delivery', 'Foundation', 'Metrics', 'Culture'].map((cat, i) => `
+                <button class="category-tag px-6 py-3 rounded-full font-medium" 
+                  style="background-color: ${surfaceColor}; color: ${textColor}; border: 2px solid ${i === 0 ? primaryColor : 'transparent'}; font-size: ${baseFontSize * 0.875}px; font-family: ${fontStack}; cursor: pointer;">
+                  ${cat}
+                </button>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- Featured Practices -->
+          <section class="max-w-7xl mx-auto px-6 py-16">
+            <h2 id="featured-title" class="font-bold mb-12 text-center" style="font-size: ${baseFontSize * 2}px; color: ${textColor}; font-family: ${fontStack};">
+              ${config.featured_title || defaultConfig.featured_title}
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              ${[
+                { title: config.practice_1_title || defaultConfig.practice_1_title, desc: config.practice_1_desc || defaultConfig.practice_1_desc, icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                { title: config.practice_2_title || defaultConfig.practice_2_title, desc: config.practice_2_desc || defaultConfig.practice_2_desc, icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+                { title: config.practice_3_title || defaultConfig.practice_3_title, desc: config.practice_3_desc || defaultConfig.practice_3_desc, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' }
+              ].map((practice, i) => `
+                <div class="practice-card p-6 rounded-2xl" style="background-color: ${surfaceColor}; border-color: ${i === 0 ? primaryColor : 'transparent'};">
+                  <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, ${primaryColor}20, ${secondaryColor}20);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${primaryColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="${practice.icon}"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-bold mb-3" style="font-size: ${baseFontSize * 1.25}px; color: ${textColor}; font-family: ${fontStack};">
+                    ${practice.title}
+                  </h3>
+                  <p class="opacity-80 mb-4" style="font-size: ${baseFontSize}px; color: ${textColor}; font-family: ${fontStack};">
+                    ${practice.desc}
+                  </p>
+                  <a href="#" class="inline-flex items-center gap-2 font-medium hover:gap-3 transition-all" style="color: ${primaryColor}; font-size: ${baseFontSize * 0.875}px; font-family: ${fontStack}; text-decoration: none;">
+                    Learn more
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${primaryColor}" stroke-width="2">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- Stats Section -->
+          <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+              ${[
+                { num: '200+', label: 'Practices' },
+                { num: '50+', label: 'Contributors' },
+                { num: '10K+', label: 'Users' },
+                { num: 'Open', label: 'Source' }
+              ].map(stat => `
+                <div class="p-6 rounded-xl" style="background-color: ${surfaceColor};">
+                  <div class="font-bold mb-2" style="font-size: ${baseFontSize * 2.5}px; color: ${primaryColor}; font-family: ${fontStack};">
+                    ${stat.num}
+                  </div>
+                  <div class="opacity-80" style="font-size: ${baseFontSize}px; color: ${textColor}; font-family: ${fontStack};">
+                    ${stat.label}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="w-full border-t mt-20" style="border-color: ${surfaceColor}; background-color: ${surfaceColor};">
+            <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+              <p id="footer-text" class="opacity-80" style="font-size: ${baseFontSize}px; color: ${textColor}; font-family: ${fontStack};">
+                ${config.footer_text || defaultConfig.footer_text}
+              </p>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['cta_button', config.cta_button || defaultConfig.cta_button],
+        ['featured_title', config.featured_title || defaultConfig.featured_title],
+        ['practice_1_title', config.practice_1_title || defaultConfig.practice_1_title],
+        ['practice_1_desc', config.practice_1_desc || defaultConfig.practice_1_desc],
+        ['practice_2_title', config.practice_2_title || defaultConfig.practice_2_title],
+        ['practice_2_desc', config.practice_2_desc || defaultConfig.practice_2_desc],
+        ['practice_3_title', config.practice_3_title || defaultConfig.practice_3_title],
+        ['practice_3_desc', config.practice_3_desc || defaultConfig.practice_3_desc],
+        ['footer_text', config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9be88719473de67b',t:'MTc2ODUxMzE4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
