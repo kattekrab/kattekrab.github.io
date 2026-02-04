@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migration Trolley Simulator</title>
+    <!-- Load React and Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Simple SVG Icon Components to replace lucide-react for single-file portability
+        const Icons = {
+            Package: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>,
+            Truck: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-5h-4l-2-2h-3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>,
+            User: ({size=24, className=""}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+            AlertTriangle: ({size=18}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>,
+            Play: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+            RotateCcw: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>,
+            Plus: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>,
+            Minus: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/></svg>,
+            Info: ({size=18}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
+            Table: ({size=18}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>,
+            TrendingUp: ({size=18}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        };
+
+        const App = () => {
+            const [totalBoxes, setTotalBoxes] = useState(100);
+            const [boxesMoved, setBoxesMoved] = useState(0);
+            const [trolleys, setTrolleys] = useState(1);
+            const [peoplePerTrolley, setPeoplePerTrolley] = useState(1);
+            const [isMigrating, setIsMigrating] = useState(false);
+            const [hallwayWidth, setHallwayWidth] = useState(3);
+            const [logs, setLogs] = useState(["Ready to start migration..."]);
+            const [positions, setPositions] = useState([]);
+
+            const getRate = (t, p, h) => {
+                if (t === 0) return 0;
+                const personMultiplier = 1 + (p - 1) * 0.5 / (p * 0.5 + 0.5);
+                const congestionFactor = t > h ? (h / t) : 1;
+                return t * 10 * personMultiplier * congestionFactor;
+            };
+
+            const currentRate = getRate(trolleys, peoplePerTrolley, hallwayWidth);
+
+            const resetSim = () => {
+                setBoxesMoved(0);
+                setIsMigrating(false);
+                setLogs(["Simulation reset."]);
+                setPositions(Array(trolleys).fill(0));
+            };
+
+            useEffect(() => {
+                let interval;
+                if (isMigrating && boxesMoved < totalBoxes) {
+                    interval = setInterval(() => {
+                        setBoxesMoved(prev => {
+                            const next = prev + (currentRate / 60);
+                            if (next >= totalBoxes) {
+                                setIsMigrating(false);
+                                setLogs(l => ["Migration Complete! 🎉", ...l]);
+                                return totalBoxes;
+                            }
+                            return next;
+                        });
+                        setPositions(prev => prev.map(p => (p + 2 + Math.random() * 2) % 100));
+                    }, 100);
+                }
+                return () => clearInterval(interval);
+            }, [isMigrating, boxesMoved, totalBoxes, currentRate]);
+
+            useEffect(() => {
+                if (trolleys > hallwayWidth) {
+                    setLogs(l => ["⚠️ Congestion Alert: Hallway is too narrow!", ...l.slice(0, 5)]);
+                }
+                if (peoplePerTrolley > 2) {
+                    setLogs(l => ["ℹ️ Diminishing Returns: High staff density per trolley.", ...l.slice(0, 5)]);
+                }
+            }, [trolleys, peoplePerTrolley, hallwayWidth]);
+
+            const chartData = [...Array(10)].map((_, i) => ({
+                trolleys: i + 1,
+                rate: getRate(i + 1, peoplePerTrolley, hallwayWidth)
+            }));
+
+            const maxRate = Math.max(...chartData.map(d => d.rate), 1);
+            const graphWidth = 400;
+            const graphHeight = 200;
+            const padding = 40;
+            const getX = (t) => padding + ((t - 1) / 9) * (graphWidth - 2 * padding);
+            const getY = (r) => (graphHeight - padding) - (r / maxRate) * (graphHeight - 2 * padding);
+            const linePath = chartData.map((d, i) => `${i === 0 ? 'M' : 'L'} ${getX(d.trolleys)} ${getY(d.rate)}`).join(' ');
+
+            return (
+                <div className="flex flex-col min-h-screen bg-slate-50 p-4 md:p-8 font-sans overflow-auto">
+                    <div className="max-w-4xl mx-auto w-full space-y-6">
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <h1 className="text-2xl font-bold text-slate-800">Migration Trolley Simulator</h1>
+                            <p className="text-slate-500 mt-1">Visualize how resources affect data transfer speed.</p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                                <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">Boxes Moved</span>
+                                    <div className="text-2xl font-mono font-bold text-blue-900">{Math.floor(boxesMoved)} / {totalBoxes}</div>
+                                </div>
+                                <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                                    <span className="text-xs font-semibold text-green-600 uppercase tracking-wider">Current Rate</span>
+                                    <div className="text-2xl font-mono font-bold text-green-900">{currentRate.toFixed(1)} <span className="text-sm">boxes/hr</span></div>
+                                </div>
+                                <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                                    <span className="text-xs font-semibold text-purple-600 uppercase tracking-wider">Time Remaining</span>
+                                    <div className="text-2xl font-mono font-bold text-purple-900">{currentRate > 0 ? ((totalBoxes - boxesMoved) / currentRate).toFixed(2) : "∞"} <span className="text-sm">hrs</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                                <h2 className="font-semibold text-slate-700 flex items-center gap-2"><Icons.Truck /> Configuration</h2>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div><label className="text-sm text-slate-600 block">Total Trolleys</label></div>
+                                        <div className="flex items-center gap-3">
+                                            <button onClick={() => setTrolleys(Math.max(1, trolleys - 1))} className="p-1 hover:bg-slate-100 rounded border border-slate-200"><Icons.Minus /></button>
+                                            <span className="w-8 text-center font-bold">{trolleys}</span>
+                                            <button onClick={() => setTrolleys(Math.min(10, trolleys + 1))} className="p-1 hover:bg-slate-100 rounded border border-slate-200"><Icons.Plus /></button>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div><label className="text-sm text-slate-600 block">People per Trolley</label></div>
+                                        <div className="flex items-center gap-3">
+                                            <button onClick={() => setPeoplePerTrolley(Math.max(1, peoplePerTrolley - 1))} className="p-1 hover:bg-slate-100 rounded border border-slate-200"><Icons.Minus /></button>
+                                            <span className="w-8 text-center font-bold">{peoplePerTrolley}</span>
+                                            <button onClick={() => setPeoplePerTrolley(Math.min(5, peoplePerTrolley + 1))} className="p-1 hover:bg-slate-100 rounded border border-slate-200"><Icons.Plus /></button>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <label className="text-sm text-slate-600 block">Hallway Width</label>
+                                        <select value={hallwayWidth} onChange={(e) => setHallwayWidth(parseInt(e.target.value))} className="bg-slate-50 border border-slate-200 rounded text-sm p-1">
+                                            <option value={1}>1 (Narrow Pipe)</option>
+                                            <option value={3}>3 (Balanced)</option>
+                                            <option value={6}>6 (Wide Pipe)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 pt-4">
+                                    <button onClick={() => setIsMigrating(!isMigrating)} className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-xl font-semibold transition ${isMigrating ? 'bg-amber-100 text-amber-700' : 'bg-blue-600 text-white'}`}>
+                                        {isMigrating ? 'Pause' : <Icons.Play />} {isMigrating ? '' : 'Start Move'}
+                                    </button>
+                                    <button onClick={resetSim} className="p-2 px-4 rounded-xl border border-slate-200 text-slate-600"><Icons.RotateCcw /></button>
+                                </div>
+                            </div>
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col">
+                                <h2 className="font-semibold text-slate-700 flex items-center gap-2 mb-4"><Icons.Info /> Insights</h2>
+                                <div className="flex-1 h-32 overflow-y-auto bg-slate-900 text-emerald-400 p-4 font-mono text-xs rounded-xl space-y-1">
+                                    {logs.map((log, i) => <div key={i}>{`> ${log}`}</div>)}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <h2 className="font-semibold text-slate-700 mb-6">Live Pipeline</h2>
+                            <div className="relative h-64 bg-slate-100 rounded-xl border border-slate-200 overflow-hidden">
+                                <div className="absolute left-0 top-0 bottom-0 w-24 bg-slate-200 border-r border-slate-300 flex flex-col items-center justify-center z-20">
+                                    <Icons.Package />
+                                </div>
+                                <div className="absolute right-0 top-0 bottom-0 w-24 bg-blue-100 border-l border-blue-200 flex flex-col items-center justify-center z-20">
+                                    <Icons.Truck />
+                                </div>
+                                <div className="absolute inset-x-24 inset-y-0 flex flex-col justify-around py-4">
+                                    {[...Array(trolleys)].map((_, i) => (
+                                        <div key={i} className="relative h-8 flex items-center" style={{ transform: `translateX(${positions[i] || 0}%)` }}>
+                                            <div className="flex items-center gap-1 bg-white border border-slate-300 p-1.5 rounded shadow-sm">
+                                                <div className="flex">{[...Array(peoplePerTrolley)].map((_, j) => <Icons.User key={j} size={12} className="text-slate-700 -ml-1 first:ml-0" />)}</div>
+                                                <div className="h-4 w-6 bg-amber-400 rounded-sm" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                {trolleys > hallwayWidth && <div className="absolute inset-0 bg-red-500/10 flex items-center justify-center z-30"><div className="bg-red-600 text-white text-[10px] px-3 py-1.5 rounded-full font-bold">THROTTLED</div></div>}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                                <h2 className="font-semibold text-slate-700 mb-4 flex items-center gap-2"><Icons.TrendingUp /> Scale Potential</h2>
+                                <svg width="100%" height="200" viewBox={`0 0 ${graphWidth} ${graphHeight}`} preserveAspectRatio="none">
+                                    {[0, 0.25, 0.5, 0.75, 1].map((p) => <line key={p} x1={padding} y1={padding + p * (graphHeight - 2 * padding)} x2={graphWidth - padding} y2={padding + p * (graphHeight - 2 * padding)} stroke="#e2e8f0" />)}
+                                    <path d={linePath} fill="none" stroke="#3b82f6" strokeWidth="3" />
+                                    <line x1={getX(hallwayWidth)} y1={0} x2={getX(hallwayWidth)} y2={graphHeight} stroke="#fbbf24" strokeDasharray="4" />
+                                </svg>
+                            </div>
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                                <h2 className="font-semibold text-slate-700 mb-4 flex items-center gap-2"><Icons.Table /> Data Matrix</h2>
+                                <div className="overflow-y-auto h-40">
+                                    <table className="w-full text-left text-xs">
+                                        <thead className="bg-slate-50 sticky top-0">
+                                            <tr><th className="p-2">Trolleys</th><th className="p-2">Rate</th><th className="p-2">Time</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {chartData.map(d => <tr key={d.trolleys} className={d.trolleys === trolleys ? 'bg-blue-50' : ''}><td className="p-2">{d.trolleys}</td><td className="p-2">{d.rate.toFixed(1)}</td><td className="p-2">{(100/d.rate).toFixed(1)}h</td></tr>)}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
