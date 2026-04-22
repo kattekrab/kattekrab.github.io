@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilitation Skills Self-Assessment</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        h1 { text-align: center; color: var(--primary); margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #64748b; margin-bottom: 30px; }
+
+        .category {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .category h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-label { font-size: 0.8rem; color: #64748b; width: 60px; }
+
+        input[type="range"] {
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .score-display {
+            font-weight: bold;
+            color: var(--primary);
+            min-width: 20px;
+            text-align: right;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #1d4ed8; }
+
+        #results {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+
+        .result-apprentice { background: #fee2e2; border: 1px solid #ef4444; }
+        .result-practitioner { background: #fef3c7; border: 1px solid #f59e0b; }
+        .result-master { background: #dcfce7; border: 1px solid #22c55e; }
+
+        .persona-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Facilitator Self-Assessment</h1>
+    <p class="subtitle">Rate yourself from 1 (Novice) to 5 (Expert)</p>
+
+    <form id="quizForm">
+        <div class="category">
+            <h2>1. Preparation & Design</h2>
+            <div class="question">
+                <label>Goal Alignment: I clarify outcomes with stakeholders.</label>
+                <div class="options">
+                    <span class="option-label">Novice</span>
+                    <input type="range" name="q1" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+            <div class="question">
+                <label>Agenda Crafting: I design balanced flows and breaks.</label>
+                <div class="options">
+                    <span class="option-label"></span>
+                    <input type="range" name="q2" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>2. EQ & Neutrality</h2>
+            <div class="question">
+                <label>Self-Awareness: I remain neutral despite personal opinions.</label>
+                <div class="options">
+                    <span class="option-label">Novice</span>
+                    <input type="range" name="q3" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+            <div class="question">
+                <label>Psychological Safety: I create a safe space for disagreement.</label>
+                <div class="options">
+                    <span class="option-label"></span>
+                    <input type="range" name="q4" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>3. Guiding the Process</h2>
+            <div class="question">
+                <label>Time Management: I can pivot or "park" topics effectively.</label>
+                <div class="options">
+                    <span class="option-label">Novice</span>
+                    <input type="range" name="q5" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+            <div class="question">
+                <label>Synthesis: I summarize complex discussions into key themes.</label>
+                <div class="options">
+                    <span class="option-label"></span>
+                    <input type="range" name="q6" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>4. Group Dynamics</h2>
+            <div class="question">
+                <label>Intervention: I'm comfortable stopping dominant voices.</label>
+                <div class="options">
+                    <span class="option-label">Novice</span>
+                    <input type="range" name="q7" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+            <div class="question">
+                <label>Encouragement: I draw out contributions from quiet thinkers.</label>
+                <div class="options">
+                    <span class="option-label"></span>
+                    <input type="range" name="q8" min="1" max="5" value="3" oninput="this.nextElementSibling.innerText = this.value">
+                    <span class="score-display">3</span>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="calculateScore()">Calculate Results</button>
+    </form>
+
+    <div id="results">
+        <div id="persona" class="persona-title"></div>
+        <p id="scoreText"></p>
+        <p id="advice"></p>
+    </div>
+</div>
+
+<script>
+    function calculateScore() {
+        const form = document.getElementById('quizForm');
+        const formData = new FormData(form);
+        let total = 0;
+        let count = 0;
+
+        for (let value of formData.values()) {
+            total += parseInt(value);
+            count++;
+        }
+
+        // Adjusting the original 20-100 scale to fit this 8-question demo (8-40)
+        // Ratio logic: Apprentice (<40%), Practitioner (40-70%), Master (>70%)
+        const maxPossible = count * 5;
+        const percentage = (total / maxPossible) * 100;
+        
+        const resultsDiv = document.getElementById('results');
+        const persona = document.getElementById('persona');
+        const scoreText = document.getElementById('scoreText');
+        const advice = document.getElementById('advice');
+
+        resultsDiv.style.display = 'block';
+        resultsDiv.className = ''; // Reset classes
+        
+        scoreText.innerText = `Your Total Score: ${total} / ${maxPossible}`;
+
+        if (percentage <= 40) {
+            persona.innerText = "The Apprentice";
+            advice.innerText = "Focus on observing other facilitators and practicing clear instruction-giving.";
+            resultsDiv.classList.add('result-apprentice');
+        } else if (percentage <= 75) {
+            persona.innerText = "The Practitioner";
+            advice.innerText = "Focus on 'reading the room' and leaning into difficult group dynamics.";
+            resultsDiv.classList.add('result-practitioner');
+        } else {
+            persona.innerText = "The Master";
+            advice.innerText = "Focus on mentoring others and experimenting with high-stakes, 'blank canvas' sessions.";
+            resultsDiv.classList.add('result-master');
+        }
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
